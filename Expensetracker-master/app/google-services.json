@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "405401426730",
+    "project_id": "expense-tracker-af40b",
+    "storage_bucket": "expense-tracker-af40b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405401426730:android:e057ba6f058f5dd704dc53",
+        "android_client_info": {
+          "package_name": "com.raman.expensetracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "405401426730-pnoisgshruujkmn3lilqdeq5169j3c25.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3ii3b2CVAzX-7PumsU-8VmvzhSkTkpWU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "405401426730-pnoisgshruujkmn3lilqdeq5169j3c25.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
