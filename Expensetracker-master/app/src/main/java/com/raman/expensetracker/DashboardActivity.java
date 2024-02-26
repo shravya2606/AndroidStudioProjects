@@ -18,6 +18,7 @@ import com.raman.expensetracker.databinding.ActivityDashboardBinding;
 
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class DashboardActivity extends AppCompatActivity {
@@ -78,7 +79,7 @@ public class DashboardActivity extends AppCompatActivity {
     }
     /*for fetching added transaction details and showing calculated value on dashboard Activity*/
     private void loadData() {
-        firebaseFirestore.collection("Expenses").document(firebaseAuth.getUid()).collection("Notes")
+        firebaseFirestore.collection("Expenses").document(Objects.requireNonNull(firebaseAuth.getUid())).collection("Notes")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {

@@ -1,64 +1,119 @@
 package com.example.cafemenuapp;
-
+import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LoginFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
+
 public class LoginFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    EditText emailText1, passwordText1;
+    Button login_Btn1;
+    ProgressBar progressBar1;
+    TextView signup_Btn;
+    private String SECRET_KEY = "aesEncryptionKey";
+    private String INIT_VECTOR = "encryptionIntVec";
+
 
     public LoginFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LoginFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static LoginFragment newInstance(String param1, String param2) {
-        LoginFragment fragment = new LoginFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        emailText1 = view.findViewById(R.id.emailText1);
+        passwordText1 = view.findViewById(R.id.passwordText2);
+        login_Btn1 = view.findViewById(R.id.login_Btn1);
+        signup_Btn = view.findViewById(R.id.signup_text_view_btn);
+
+
+        progressBar1 = view.findViewById(R.id.progress_bar1);
+        login_Btn1.setOnClickListener(v -> {
+            String enteredEmail = emailText1.getText().toString();
+            String enteredPwd = encrypt(passwordText1.getText().toString());
+
+
+            if(checkLoginCredentials(enteredEmail, enteredPwd))
+            {
+                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frameLayout, new CafeMenu());
+                transaction.commit();
+                // Login successful, perform necessary actions
+                Toast.makeText(requireContext(), "Login Successful", Toast.LENGTH_SHORT).show();
+
+
+
+
+            } else {
+                // Login failed, show an error message
+                Toast.makeText(requireContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
+            }
+
+        });
+        signup_Btn.setOnClickListener((v) -> {
+            // Assuming you are working with a FragmentTransaction in the hosting activity
+            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.frameLayout, new SignupFragment());
+            transaction.addToBackStack(null); // Optional: Adds the transaction to the back stack
+            transaction.commit();
+        });
+
+
+
+        return view;
+
     }
+    private boolean checkLoginCredentials(String enteredEmail, String enteredPwd) {
+        Cursor cursor = requireActivity().getContentResolver().query(
+                MyContentProvider.CONTENT_URI,
+                null,
+                MyContentProvider.username + "=? AND " + MyContentProvider.password+ "=?",
+                new String[]{enteredEmail, enteredPwd},
+                null
+        );
+        boolean loginSuccessful = cursor != null && cursor.getCount() > 0;
+
+        if (cursor != null) {
+            cursor.close();
+        }
+
+        return loginSuccessful;
+    }
+
+    public String encrypt(String value) {
+        try {
+            IvParameterSpec iv = new IvParameterSpec(INIT_VECTOR.getBytes("UTF-8"));
+            SecretKeySpec skeySpec = new SecretKeySpec(SECRET_KEY.getBytes("UTF-8"), "AES");
+
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+            cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
+
+            byte[] encrypted = cipher.doFinal(value.getBytes());
+            return Base64.encodeToString(encrypted, Base64.DEFAULT);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+
 }

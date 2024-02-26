@@ -1,19 +1,18 @@
-package com.raman.expensetracker;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.expensetrack;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.raman.expensetracker.databinding.ActivityMainBinding;
-import com.raman.expensetracker.databinding.ActivitySignUpBinding;
+import com.example.expensetrack.databinding.ActivitySignUpBinding;
 
 public class SignUpActivity extends AppCompatActivity {
     ActivitySignUpBinding binding;

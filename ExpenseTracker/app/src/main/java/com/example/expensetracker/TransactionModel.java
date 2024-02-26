@@ -1,11 +1,12 @@
-package com.raman.expensetracker;
+package com.example.expensetracker;
 
 public class TransactionModel {
     private String id, note, amount, type, date;
-
     public TransactionModel() {
 
     }
+
+
 
     /*for setting and getting transaction details on firebase DB*/
     public TransactionModel(String id, String note, String amount, String type, String date) {

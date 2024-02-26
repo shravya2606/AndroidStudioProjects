@@ -1,18 +1,17 @@
-package com.raman.expensetracker;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+package com.example.expensetracker;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.raman.expensetracker.databinding.ActivityMainBinding;
+import com.example.expensetracker.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
@@ -39,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         startActivity(new Intent(MainActivity.this, DashboardActivity.class));
                         finish();
-                    } catch (Exception e) {
+                    } catch (Exception ignored) {
 
                     }
                 }
@@ -51,11 +50,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 /*Intent for going to SignUp Activty From MainActivity*/
-                Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
+                Intent intent;
+                intent = new Intent(MainActivity.this, SignUpActivity.class);
                 /*for Low speed device in case of app crash while an activity launches*/
                 try {
                     startActivity(intent);
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
                 }
             }

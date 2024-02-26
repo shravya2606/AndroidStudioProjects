@@ -1,5 +1,7 @@
 package com.example.expensetracker;
 
+import static android.widget.Toast.makeText;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,11 +10,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.expensetracker.databinding.ActivitySignUpBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.raman.expensetracker.databinding.ActivitySignUpBinding;
 
 public class SignUpActivity extends AppCompatActivity {
     ActivitySignUpBinding binding;
@@ -24,7 +26,7 @@ public class SignUpActivity extends AppCompatActivity {
         /*inflate used for binding both activities*/
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        firebaseAuth = firebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
 
         /*for going to Login Screen to Sign up Screen */
@@ -34,7 +36,7 @@ public class SignUpActivity extends AppCompatActivity {
                 Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                 try {
                     startActivity(intent);
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
                 }
             }
@@ -51,14 +53,14 @@ public class SignUpActivity extends AppCompatActivity {
                 firebaseAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                             @Override
                             public void onSuccess(AuthResult authResult) {
-                                Toast.makeText(SignUpActivity.this, "User Created Successfully", Toast.LENGTH_SHORT).show();
+                                makeText(SignUpActivity.this, "User Created Successfully", Toast.LENGTH_SHORT).show();
 
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
             }

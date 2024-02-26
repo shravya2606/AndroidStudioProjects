@@ -3,12 +3,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".signup_fragment">
+    tools:context=".signup_fragment"
+    >
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
+
+    <LinearLayout
+        android:id="@+id/VLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="402dp"
+
+        android:layout_marginTop="17dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView001"
+            android:layout_width="364dp"
+            android:layout_height="49dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="47dp"
+            android:layout_marginEnd="23dp"
+            android:layout_marginBottom="47dp"
+            android:background="@drawable/roundcorner"
+            android:gravity="center"
+            android:text="Cafe Coffee Day"
+            android:textAllCaps="true"
+
+            android:textSize="25sp" />
+
+        <EditText
+            android:id="@+id/editTextTextEmailAddress1"
+            android:layout_width="273dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="20dp"
+
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Enter your Email"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/editTextTextPassword1"
+            android:layout_width="266dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="20dp"
+
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Enter your paswword"
+            android:inputType="textPassword"
+            android:text="Password" />
+
+        <Button
+            android:layout_width="188dp"
+            android:id="@+id/button3"
+            android:layout_height="wrap_content"
+            android:text="SignUp"
+            android:layout_marginTop="20dp"></Button>
+    </LinearLayout>
 </FrameLayout>

@@ -1,24 +1,21 @@
 package com.example.expensetracker;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.raman.expensetracker.databinding.ActivityAddTransactionBinding;
-
+import com.example.expensetracker.databinding.ActivityAddTransactionBinding;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 public class AddTransactionActivity extends AppCompatActivity {
@@ -38,7 +35,7 @@ public class AddTransactionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityAddTransactionBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        /*Initializing Firestore DB*/
+
         fStore = FirebaseFirestore.getInstance();
 
         /*Initializing FirebaseAuth*/
@@ -76,7 +73,7 @@ public class AddTransactionActivity extends AppCompatActivity {
                 String note = binding.userNoteAdd.getText().toString().trim();
 
                 /*validation*/
-                if (amount.length() <= 0) {
+                if (amount.length()<=0) {
                     return;
                 }
 
@@ -94,7 +91,7 @@ public class AddTransactionActivity extends AppCompatActivity {
                 transactions.put("type", type);
                 transactions.put("date", currentDateAndTime);
                 /*for storing data on firebase*/
-                fStore.collection("Expenses").document(firebaseAuth.getUid()).collection("Notes").document(id)
+                fStore.collection("Expenses").document(Objects.requireNonNull(firebaseAuth.getUid())).collection("Notes").document(id)
                         .set(transactions)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override

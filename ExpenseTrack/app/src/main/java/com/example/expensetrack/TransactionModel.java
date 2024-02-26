@@ -1,4 +1,4 @@
-package com.raman.expensetracker;
+package com.example.expensetrack;
 
 public class TransactionModel {
     private String id, note, amount, type, date;

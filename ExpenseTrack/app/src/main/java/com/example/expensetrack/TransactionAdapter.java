@@ -1,4 +1,4 @@
-package com.raman.expensetracker;
+package com.example.expensetrack;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.MyViewHolder> {
     Context context;

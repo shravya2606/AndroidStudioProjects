@@ -1,13 +1,13 @@
-package com.example.moneymanager;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.expensetrack;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.moneymanager.databinding.ActivityAddTransactionBinding;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.expensetrack.databinding.ActivityAddTransactionBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;

@@ -1,2 +1,4 @@
-package com.example.cafeapp;public class MyViewPagerAdatper {
+package com.example.cafeapp;
+
+public class MyViewPagerAdatper {
 }

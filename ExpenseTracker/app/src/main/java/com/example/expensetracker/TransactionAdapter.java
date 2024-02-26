@@ -1,6 +1,8 @@
 package com.example.expensetracker;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +30,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         TransactionModel model = transactionModelArrayList.get(position);
         /*for fetching data in views*/
         String priority = model.getType();
@@ -41,6 +43,19 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         holder.amount.setText(model.getAmount());
         holder.date.setText(model.getDate());
         holder.note.setText(model.getNote());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, updateActivity.class);
+                intent.putExtra("id", transactionModelArrayList.get(position).getId());
+                intent.putExtra("amount", transactionModelArrayList.get(position).getAmount());
+                intent.putExtra("note", transactionModelArrayList.get(position).getNote());
+                intent.putExtra("type", transactionModelArrayList.get(position).getType());
+                context.startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -49,7 +64,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     }
 
     /*for holding Single views*/
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView note, amount, date;
         View priority;
 

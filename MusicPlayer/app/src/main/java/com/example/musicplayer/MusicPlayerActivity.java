@@ -1,8 +1,5 @@
 package com.example.musicplayer;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -21,7 +18,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
     TextView titleTv,currentTimeTv,totalTimeTv;
     SeekBar seekBar;
     ImageView pausePlay,nextBtn,previousBtn,musicIcon;
-    ArrayList<AudioModel> songsList;
+    ArrayList<AudioModel> songsList = (ArrayList<AudioModel>) getIntent().getSerializableExtra("LIST");
     AudioModel currentSong;
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
     int x=0;
@@ -41,8 +38,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
         musicIcon = findViewById(R.id.music_icon_big);
 
         titleTv.setSelected(true);
-
-        songsList = (ArrayList<AudioModel>) getIntent().getSerializableExtra("LIST");
 
         setResourcesWithMusic();
 

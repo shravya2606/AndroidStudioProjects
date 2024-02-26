@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/custom_toolbar_dashboard"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
+        android:layout_height="wrap_content"
         android:background="@color/red">
 
         <ImageView

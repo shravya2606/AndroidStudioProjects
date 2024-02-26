@@ -1,12 +1,27 @@
 package com.example.notesapp;
 
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +34,11 @@ public class signup_fragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    EditText emailText, passwordText, confirmpasswordText;
+    Button signupBtn;
+    ProgressBar progressBar;
+    TextView loginBtn;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -55,10 +75,106 @@ public class signup_fragment extends Fragment {
         }
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.signup_fragment, container, false);
+        View view = inflater.inflate(R.layout.signup_fragment, container, false);
+        emailText = view.findViewById(R.id.emailText);
+        passwordText = view.findViewById(R.id.passwordText);
+        signupBtn = view.findViewById(R.id.signupBtn);
+        confirmpasswordText = view.findViewById(R.id.confirmpasswordText);
+        loginBtn = view.findViewById(R.id.login_text_view_btn);
+        progressBar = view.findViewById(R.id.progress_bar);
+        signupBtn.setOnClickListener(v -> createAccount());
+        loginBtn.setOnClickListener((v) -> {
+            // Assuming you are working with a FragmentTransaction in the hosting activity
+            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.frameLayout, new login_fragment());
+            transaction.addToBackStack(null); // Optional: Adds the transaction to the back stack
+            transaction.commit();
+        });
+
+
+
+
+        return view;
+    }
+
+
+
+
+    void createAccount() {
+        String emails = emailText.getText().toString();
+        String pwd = passwordText.getText().toString();
+        String confirm = confirmpasswordText.getText().toString();
+        boolean isValidated = validateData(emails, pwd, confirm);
+        if (!isValidated) {
+            return;
+        }
+        createAccountInFirebase(emails, pwd);
+    }
+
+    void createAccountInFirebase(String email, String password) {
+
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        changeInProgress(true);
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener( requireActivity(),
+              new  OnCompleteListener<AuthResult>()  {
+
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        changeInProgress(false);
+
+                        if (task.isSuccessful()) {
+                            Utility.showToast(getContext(),"Successfully create account,Check email to verify");
+
+                            Objects.requireNonNull(firebaseAuth.getCurrentUser());
+                            firebaseAuth.signOut();
+
+
+
+                        }
+                        else{
+                            //failure
+                            Utility.showToast(getContext(),task.getException().getLocalizedMessage());
+                        }
+
+                    }
+                }
+        );
+
+
+    }
+    void changeInProgress(boolean inProgress){
+        if(inProgress){
+            progressBar.setVisibility(View.VISIBLE);
+            loginBtn.setVisibility(View.GONE);
+        }else{
+            progressBar.setVisibility(View.GONE);
+            loginBtn.setVisibility(View.VISIBLE);
+        }
+    }
+    boolean validateData(String email, String password, String confirmPassword) {
+        //validate the data that are input by user.
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailText.setError("Email is invalid");
+            return false;
+        }
+        if (password.length() < 6) {
+            passwordText.setError("Password length is invalid");
+            return false;
+        }
+        if (!password.equals(confirmPassword)) {
+            confirmpasswordText.setError("Password not matched");
+            return false;
+
+        }
+
+        return true;
     }
 }
+
